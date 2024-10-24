@@ -1,11 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float mouseSensitivity = 100f;
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private CharacterController characterController;
+
+    private float xRotation = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -21,11 +23,12 @@ public class PlayerMovement : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = -Input.GetAxis("Mouse Y");
 
-        Vector3 translateAmount = (moveVertical * movementSpeed * Time.deltaTime * transform.TransformDirection(Vector3.forward)) +
-            (moveHorizontal * movementSpeed * Time.deltaTime * transform.TransformDirection(Vector3.right));
-        transform.Translate(translateAmount);
+        Vector3 translateAmount = (moveVertical * movementSpeed * Time.deltaTime * transform.forward) +
+            (moveHorizontal * movementSpeed * Time.deltaTime * transform.right);
+        characterController.Move(translateAmount);
 
-        transform.Rotate(0, mouseX, 0);
-        cameraTransform.Rotate(mouseY, 0, 0);
+        xRotation += mouseY * mouseSensitivity * Time.deltaTime;
+        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        transform.Rotate(0f, mouseX * mouseSensitivity * Time.deltaTime, 0f);
     }
 }
