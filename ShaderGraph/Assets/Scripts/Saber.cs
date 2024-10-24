@@ -83,4 +83,9 @@ public class Saber : MonoBehaviour
         audioSource.pitch = pitch;
         audioSource.Play();
     }
+
+    public void PlaySwingClip()
+    {
+        PlayClip(swingClip);
+    }
 }

@@ -419,7 +419,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.652, z: 0}
+  m_LocalPosition: {x: 0, y: 1.167, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1172,6 +1172,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  cameraTransform: {fileID: 330585546}
+  saberAnimator: {fileID: 1859665516}
+  saber: {fileID: 1859665514}
+  attackCooldown: 1.5
 --- !u!143 &1124207631
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2210,6 +2214,7 @@ GameObject:
   - component: {fileID: 1859665513}
   - component: {fileID: 1859665514}
   - component: {fileID: 1859665515}
+  - component: {fileID: 1859665516}
   m_Layer: 0
   m_Name: Lightsaber
   m_TagString: Untagged
@@ -2351,6 +2356,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &1859665516
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859665512}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9bb1432acde52d54bb1286b20dc58aec, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1861612982
 GameObject:
   m_ObjectHideFlags: 0
