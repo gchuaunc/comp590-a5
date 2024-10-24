@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,9 +13,18 @@ public class Enemy : MonoBehaviour
     private float cooldown = 0f;
     private float health;
 
+    public static List<Enemy> enemies;
+
     private void Start()
     {
         health = maxHealth;
+
+        if (enemies == null)
+        {
+            enemies = new List<Enemy>();
+        }
+
+        enemies.Add(this);
     }
 
     private void FixedUpdate()
@@ -43,8 +53,9 @@ public class Enemy : MonoBehaviour
     public void Hurt(float amount)
     {
         health -= amount;
-        if (health < 0f)
+        if (health <= 0f)
         {
+            enemies.Remove(this);
             Destroy(gameObject);
         }
     }
