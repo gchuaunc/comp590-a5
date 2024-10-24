@@ -7,6 +7,12 @@ public class Saber : MonoBehaviour
     [SerializeField] private float maxScale = 0.7f;
     [SerializeField] private Transform bladeTransform;
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip openClip;
+    [SerializeField] private AudioClip closeClip;
+    [SerializeField] private AudioClip swingClip;
+    [SerializeField] private float pitchVariation = 0.1f;
+
     private bool isOn;
     private float currentScaleT; // between 0 and 1 - slerp T value
     private float scaleDelta;
@@ -33,10 +39,12 @@ public class Saber : MonoBehaviour
             {
                 isOn = false;
                 scaleDelta = -maxScale / extendSpeed;
+                PlayClip(closeClip);
             } else
             {
                 isOn = true;
                 scaleDelta = maxScale / extendSpeed;
+                PlayClip(openClip);
             }
         }
 
@@ -62,5 +70,17 @@ public class Saber : MonoBehaviour
             }
             bladeTransform.localScale = newScale;
         }
+    }
+
+    private void PlayClip(AudioClip clip, bool varyPitch = true)
+    {
+        float pitch = 1f;
+        if (varyPitch)
+        {
+            pitch += Random.Range(-pitchVariation, pitchVariation);
+        }
+        audioSource.clip = clip;
+        audioSource.pitch = pitch;
+        audioSource.Play();
     }
 }
