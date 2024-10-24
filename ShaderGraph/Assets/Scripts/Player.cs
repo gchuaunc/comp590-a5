@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Animator saberAnimator;
     [SerializeField] private Saber saber;
     [SerializeField] private float attackCooldown = 1.5f;
+    [SerializeField] private float attackRange = 3f;
+    [SerializeField] private float attackDamage = 10f;
 
     private float health;
     private float cooldown = 0f;
@@ -37,6 +39,15 @@ public class Player : MonoBehaviour
         {
             saber.PlaySwingClip();
             saberAnimator.SetTrigger("Swing");
+            cooldown = attackCooldown;
+
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.TransformDirection(Vector3.forward), out RaycastHit hit, attackRange))
+            {
+                if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+                {
+                    enemy.Hurt(attackDamage);
+                }
+            }
         }
         cooldown -= Time.deltaTime;
     }

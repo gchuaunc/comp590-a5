@@ -7,8 +7,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float damage = 10f;
     [SerializeField] private float damageRadius = 5f;
     [SerializeField] private float damageCooldownSeconds = 1f;
+    [SerializeField] private float maxHealth = 30f;
 
     private float cooldown = 0f;
+    private float health;
+
+    private void Start()
+    {
+        health = maxHealth;
+    }
 
     private void FixedUpdate()
     {
@@ -31,5 +38,14 @@ public class Enemy : MonoBehaviour
         }
 
         cooldown -= Time.fixedDeltaTime;
+    }
+
+    public void Hurt(float amount)
+    {
+        health -= amount;
+        if (health < 0f)
+        {
+            Destroy(gameObject);
+        }
     }
 }
