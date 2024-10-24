@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private Animator animator;
     [SerializeField] private float damage = 10f;
     [SerializeField] private float damageRadius = 5f;
     [SerializeField] private float damageCooldownSeconds = 1f;
@@ -15,17 +16,18 @@ public class Enemy : MonoBehaviour
 
     public static List<Enemy> enemies;
 
+    private void Awake()
+    {
+        enemies = new List<Enemy>();
+    }
+
     private void Start()
     {
         health = maxHealth;
 
-        if (enemies == null)
-        {
-            enemies = new List<Enemy>();
-        }
-
         enemies.Add(this);
     }
+    
 
     private void FixedUpdate()
     {
@@ -53,6 +55,7 @@ public class Enemy : MonoBehaviour
     public void Hurt(float amount)
     {
         health -= amount;
+        animator.SetTrigger("Hurt");
         if (health <= 0f)
         {
             enemies.Remove(this);

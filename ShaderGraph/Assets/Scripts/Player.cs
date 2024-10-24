@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -10,8 +11,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float attackCooldown = 1.5f;
     [SerializeField] private float attackRange = 3f;
     [SerializeField] private float attackDamage = 10f;
-    [SerializeField] private GameObject hurtEffect;
+    [SerializeField] private GameObject hurtEffect; // yes yes I know you shouldn't mess with UI from here but quiet this is just for an assignment
     [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private GameObject winPanel;
+    [SerializeField] private GameObject losePanel;
+    [SerializeField] private TextMeshProUGUI objectiveText;
 
     private float health;
     private float cooldown = 0f;
@@ -20,6 +24,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1.0f;
         if (instance == null)
         {
             instance = this;
@@ -39,7 +44,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1") && cooldown < 0.1f)
+        if (saber.IsOn && Input.GetButtonDown("Fire1") && cooldown < 0.1f)
         {
             saber.PlaySwingClip();
             saberAnimator.SetTrigger("Swing");
@@ -54,6 +59,16 @@ public class Player : MonoBehaviour
             }
         }
         cooldown -= Time.deltaTime;
+
+        // check for win
+        int numEnemies = Enemy.enemies.Count;
+        objectiveText.text = "Objective: Eliminate all enemies. (" + numEnemies + " left)";
+        if (numEnemies == 0)
+        {
+            Time.timeScale = 0f;
+            winPanel.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     public void Hurt(float amount)
@@ -71,5 +86,8 @@ public class Player : MonoBehaviour
     private void Die()
     {
         Debug.Log("I died!");
+        Time.timeScale = 0f;
+        losePanel.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
     }
 }

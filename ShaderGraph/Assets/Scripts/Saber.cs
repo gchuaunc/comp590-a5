@@ -13,7 +13,8 @@ public class Saber : MonoBehaviour
     [SerializeField] private AudioClip swingClip;
     [SerializeField] private float pitchVariation = 0.1f;
 
-    private bool isOn;
+    public bool IsOn { get; private set; }
+
     private float currentScaleT; // between 0 and 1 - slerp T value
     private float scaleDelta;
     private float xScale;
@@ -22,7 +23,7 @@ public class Saber : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        isOn = true;
+        IsOn = true;
         currentScaleT = 1f;
         scaleDelta = 0f;
         xScale = bladeTransform.localScale.x;
@@ -35,21 +36,21 @@ public class Saber : MonoBehaviour
         // get input
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isOn)
+            if (IsOn)
             {
-                isOn = false;
+                IsOn = false;
                 scaleDelta = -maxScale / extendSpeed;
                 PlayClip(closeClip);
             } else
             {
-                isOn = true;
+                IsOn = true;
                 scaleDelta = maxScale / extendSpeed;
                 PlayClip(openClip);
             }
         }
 
         // apply scaling changes
-        if (isOn)
+        if (IsOn)
         {
             Vector3 newScale = Vector3.Slerp(new Vector3(xScale, minScale, zScale), new Vector3(xScale, maxScale, zScale), currentScaleT);
             currentScaleT += scaleDelta * Time.deltaTime;
